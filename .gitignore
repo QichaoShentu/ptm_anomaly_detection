@@ -1,3 +1,6 @@
 /dataset
+/training
 /.idea
+/.vscode
 *.pyc
+*test*
