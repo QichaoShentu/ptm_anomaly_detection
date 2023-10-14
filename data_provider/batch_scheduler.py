@@ -7,7 +7,7 @@ class BatchSchedulerSampler(Sampler):
         self.dataset = dataset
         self.batch_size = batch_size
         self.number_of_datasets = len(dataset.datasets)
-        self.largest_dataset_size = max([len(cur_dataset) for cur_dataset in dataset.datasets])
+        self.largest_dataset_size = min([len(cur_dataset) for cur_dataset in dataset.datasets]) # update
 
     def __len__(self):
         # [] max len

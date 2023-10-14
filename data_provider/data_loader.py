@@ -33,9 +33,9 @@ class SMAPSegLoader(Dataset): # 25
         test_labels = np.load(os.path.join(root_path, "SMAP/SMAP_test_label.npy"))
         self.test_labels = test_labels[:len(self.val)]
 
-        print("train:", self.train.shape)
-        print("valid:", self.val.shape)
-        print("test:", self.test.shape)
+        # print("train:", self.train.shape)
+        # print("valid:", self.val.shape)
+        # print("test:", self.test.shape)
         
     def __len__(self):
         if self.flag == "train":
@@ -85,9 +85,9 @@ class SMDSegLoader(Dataset): # 38
         test_labels = np.load(os.path.join(root_path, "SMD/SMD_test_label.npy"))
         self.test_labels = test_labels[:len(self.val)]
 
-        print("train:", self.train.shape)
-        print("valid:", self.val.shape)
-        print("test:", self.test.shape)
+        # print("train:", self.train.shape)
+        # print("valid:", self.val.shape)
+        # print("test:", self.test.shape)
 
     def __len__(self):
         if self.flag == "train":
@@ -138,9 +138,9 @@ class GECCOSegLoader(Dataset): # 9
         test_labels = np.load(os.path.join(root_path, "NIPS_TS_GECCO/NIPS_TS_Water_test_label.npy"))
         self.test_labels = test_labels[:len(self.val)]
 
-        print("train:", self.train.shape)
-        print("valid:", self.val.shape)
-        print("test:", self.test.shape)
+        # print("train:", self.train.shape)
+        # print("valid:", self.val.shape)
+        # print("test:", self.test.shape)
 
     def __len__(self):
         if self.flag == "train":

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def vis(scores, save_path, save_name, threshold=None):
     x = range(len(scores))
     y = scores
-    plt.plot(x, y, "b-", alpha=0.5, linewidth=0.1, label="score")
+    plt.plot(x, y, "b-", alpha=0.5, linewidth=0.1)
     plt.legend()
     if threshold is not None:
         plt.axhline(threshold, color='r', linestyle='--', label=f'{threshold}')
@@ -92,7 +92,7 @@ class EarlyStopping:
     certain epochs.
     """
 
-    def __init__(self, patience=7, verbose=False, delta=0):
+    def __init__(self, patience=3, verbose=False, delta=0):
         """
 
         Args:

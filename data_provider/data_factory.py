@@ -1,7 +1,7 @@
-from data_loader_onlyTrain import ASDSegLoader, MSLSegLoader, PSMSegLoader, SKABSegLoader, SWATSegLoader
-from data_loader import SMDSegLoader, SMAPSegLoader, GECCOSegLoader
 from torch.utils.data import ConcatDataset, DataLoader
-from batch_scheduler import BatchSchedulerSampler
+from .data_loader_onlyTrain import ASDSegLoader, MSLSegLoader, PSMSegLoader, SKABSegLoader, SWATSegLoader
+from .data_loader import SMDSegLoader, SMAPSegLoader, GECCOSegLoader
+from .batch_scheduler import BatchSchedulerSampler
 
 train_data_dict = {
     'ASD': ASDSegLoader,
