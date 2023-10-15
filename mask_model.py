@@ -105,13 +105,17 @@ class Model:
 
         return loss_log, loss_log_iters
 
-    def finetune(self, train_loader, val_loader, save_path, verbose=False):
+    def finetune(self, train_loader, val_loader, save_path, finetune, verbose=False):
         # loss = repr_loss + restructed_loss * 2
         early_stopping = EarlyStopping(verbose=verbose)
-        # freeze encoder
-        for param in self._net.encoder.parameters():
-            param.requires_grad = False
-        optimizer = torch.optim.AdamW(self._net.decoder.parameters(), lr=self.lr)
+        if finetune:
+            # freeze encoder
+            if verbose: print('freeze encoder')
+            for param in self._net.encoder.parameters():
+                param.requires_grad = False
+            optimizer = torch.optim.AdamW(self._net.decoder.parameters(), lr=self.lr)
+        else:
+            optimizer = torch.optim.AdamW(self._net.parameters(), lr=self.lr)
 
         repr_sim = nn.MSELoss()
         restruction_error = nn.L1Loss()
@@ -246,8 +250,8 @@ class Model:
             restructed_err = restruction_error(batch_x, restructed_x).mean(
                 dim=-1
             )  # b x t
-            score = restructed_err 
-            # score = repr_err+restructed_err #
+            # score = restructed_err 
+            score = repr_err+restructed_err*2 #
             score = score.detach().cpu().numpy()
             scores.append(score)
             labels.append(batch_y)
