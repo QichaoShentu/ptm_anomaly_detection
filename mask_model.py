@@ -115,6 +115,7 @@ class Model:
                 param.requires_grad = False
             optimizer = torch.optim.AdamW(self._net.decoder.parameters(), lr=self.lr)
         else:
+            if verbose: print('freeze none')
             optimizer = torch.optim.AdamW(self._net.parameters(), lr=self.lr)
 
         repr_sim = nn.MSELoss()

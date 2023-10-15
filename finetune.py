@@ -37,6 +37,7 @@ parser.add_argument(
 )
 parser.add_argument("--ratio", type=int, default=1, help="")
 parser.add_argument("--finetune", type=int, default=1, help="")
+parser.add_argument("--freeze", type=str, default="", help="")
 parser.add_argument("--iters", type=int, default=None, help="The number of iterations")
 parser.add_argument("--epochs", type=int, default=None, help="The number of epochs")
 parser.add_argument(
@@ -87,8 +88,11 @@ if args.finetune:
     model.load(args.ptm)
     print(args.ptm, "done!")
 
+finetune = args.finetune
+if args.freeze == 'none':
+    finetune = 0
 train_loss_log, train_loss_log_iters, val_loss_log, val_loss_log_iters = model.finetune(
-    train_data_loader, val_data_loader, run_dir, finetune=args.finetune, verbose=True
+    train_data_loader, val_data_loader, run_dir, finetune=finetune, verbose=True
 )
 
 t = time.time() - t
