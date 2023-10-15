@@ -1,6 +1,7 @@
 /dataset
 /training*
-/finetune
+/finetune*
+/detection*
 /.idea
 /.vscode
 *.pyc

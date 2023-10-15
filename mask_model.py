@@ -106,6 +106,7 @@ class Model:
         return loss_log, loss_log_iters
 
     def finetune(self, train_loader, val_loader, save_path, verbose=False):
+        # loss = repr_loss + restructed_loss * 2
         early_stopping = EarlyStopping(verbose=verbose)
         # freeze encoder
         for param in self._net.encoder.parameters():
@@ -216,6 +217,14 @@ class Model:
         return threshold
 
     def cal_scores(self, loader):
+        '''cal anomaly scores, scores = restructed_err*a
+
+        Args:
+            loader (_type_): data_loader
+
+        Returns:
+            (np.array, np.array): (scores, labels)
+        '''
         scores = []
         labels = []
         repr_sim = nn.MSELoss(reduction="none")
@@ -237,8 +246,8 @@ class Model:
             restructed_err = restruction_error(batch_x, restructed_x).mean(
                 dim=-1
             )  # b x t
-            # score = repr_err + restructed_err * 2  # element-wise
-            score = restructed_err
+            score = restructed_err 
+            # score = repr_err+restructed_err #
             score = score.detach().cpu().numpy()
             scores.append(score)
             labels.append(batch_y)

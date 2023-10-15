@@ -4,15 +4,21 @@ import torch
 import random
 from datetime import datetime
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
+plt.ioff()
 
 
 def vis(scores, save_path, save_name, threshold=None):
     x = range(len(scores))
     y = scores
-    plt.plot(x, y, "b-", alpha=0.5, linewidth=0.1)
-    plt.legend()
+    linewidth = 200000 / len(x)
+    plt.plot(x, y, linewidth=linewidth)
     if threshold is not None:
-        plt.axhline(threshold, color='r', linestyle='--', label=f'{threshold}')
+        plt.axhline(threshold, color='r', linestyle='--', label=f'threshold={threshold:.4f}')
+        plt.ylabel('score')
+        plt.legend(loc="upper right")
+    
     plt.savefig(f"{save_path}/{save_name}.png")
     plt.clf()
     

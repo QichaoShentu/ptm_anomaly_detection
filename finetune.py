@@ -36,6 +36,7 @@ parser.add_argument(
     help="The representation dimension (defaults to 320)",
 )
 parser.add_argument("--ratio", type=int, default=1, help="")
+parser.add_argument("--finetune", type=int, default=1, help="")
 parser.add_argument("--iters", type=int, default=None, help="The number of iterations")
 parser.add_argument("--epochs", type=int, default=None, help="The number of epochs")
 parser.add_argument(
@@ -45,7 +46,7 @@ parser.add_argument("--seed", type=int, default=1, help="The random seed")
 parser.add_argument(
     "--ptm",
     type=str,
-    default="/workspace/ptm_anomaly_detection/training1/W100P1MMaskR320-20231012/model.pkl",
+    default="model.pkl",
     help="",
 )
 parser.add_argument(
@@ -73,7 +74,7 @@ run_dir = "finetune/" + name_with_datetime(args.save_name)
 os.makedirs(run_dir, exist_ok=True)
 
 model = Model(**config)
-train_dataset, train_data_loader = data_provider(args, "train", finetune=True)
+train_dataset, train_data_loader = data_provider(args, "train", finetune=args.finetune)
 val_dataset, val_data_loader = data_provider(args, "val")
 test_dataset, test_data_loader = data_provider(args, "test")
 print("trian_data_loader len: ", len(train_data_loader))
@@ -81,6 +82,10 @@ print("val_data_loader len: ", len(val_data_loader))
 print("test_data_loader len: ", len(test_data_loader))
 
 t = time.time()
+if args.finetune:
+    print('loading ptm...', end='')
+    model.load(args.ptm)
+    print(args.ptm, 'done!')
 
 train_loss_log, train_loss_log_iters, val_loss_log, val_loss_log_iters = model.finetune(
     train_data_loader, val_data_loader, run_dir, verbose=True
