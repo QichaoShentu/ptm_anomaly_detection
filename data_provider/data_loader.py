@@ -27,11 +27,12 @@ class SMAPSegLoader(Dataset): # 25
         self.val = data[train_data_len:] # 2/10
 
         test_data = np.load(os.path.join(root_path, "SMAP/SMAP_test.npy"))
-        test_data = test_data[:len(self.val)] # 2/10
+        # test_data = test_data[:len(self.val)] # 2/10
         self.test = self.scaler.transform(test_data)
 
         test_labels = np.load(os.path.join(root_path, "SMAP/SMAP_test_label.npy"))
-        self.test_labels = test_labels[:len(self.val)]
+        # self.test_labels = test_labels[:len(self.val)]
+        self.test_labels = test_labels
 
         # print("train:", self.train.shape)
         # print("valid:", self.val.shape)
@@ -79,11 +80,12 @@ class SMDSegLoader(Dataset): # 38
         self.val = data[train_data_len:] # 2/10
 
         test_data = np.load(os.path.join(root_path, "SMD/SMD_test.npy"))
-        test_data = test_data[:len(self.val)] # 2/10
+        # test_data = test_data[:len(self.val)] # 2/10
         self.test = self.scaler.transform(test_data)
         
         test_labels = np.load(os.path.join(root_path, "SMD/SMD_test_label.npy"))
-        self.test_labels = test_labels[:len(self.val)]
+        # self.test_labels = test_labels[:len(self.val)]
+        self.test_labels = test_labels
 
         # print("train:", self.train.shape)
         # print("valid:", self.val.shape)
@@ -132,11 +134,12 @@ class GECCOSegLoader(Dataset): # 9
         self.val = data[train_data_len:] # 2/10
 
         test_data = np.load(os.path.join(root_path, "NIPS_TS_GECCO/NIPS_TS_Water_test.npy"))
-        test_data = test_data[:len(self.val)] # 2/10
+        # test_data = test_data[:len(self.val)] # 2/10
         self.test = self.scaler.transform(test_data)
         
         test_labels = np.load(os.path.join(root_path, "NIPS_TS_GECCO/NIPS_TS_Water_test_label.npy"))
-        self.test_labels = test_labels[:len(self.val)]
+        # self.test_labels = test_labels[:len(self.val)]
+        self.test_labels = test_labels
 
         # print("train:", self.train.shape)
         # print("valid:", self.val.shape)

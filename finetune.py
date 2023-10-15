@@ -35,9 +35,10 @@ parser.add_argument(
     default=320,
     help="The representation dimension (defaults to 320)",
 )
-parser.add_argument("--ratio", type=int, default=1, help="")
+parser.add_argument("--ratio", type=float, default=1, help="")
 parser.add_argument("--finetune", type=int, default=1, help="")
 parser.add_argument("--freeze", type=str, default="", help="")
+parser.add_argument("--patience", type=int, default=3, help="")
 parser.add_argument("--iters", type=int, default=None, help="The number of iterations")
 parser.add_argument("--epochs", type=int, default=None, help="The number of epochs")
 parser.add_argument(
@@ -69,6 +70,7 @@ config = dict(
     show_every_iters=args.show_every_iters,
     after_iter_callback=None,
     after_epoch_callback=None,
+    patience=args.patience,
 )
 run_dir = "finetune/" + name_with_datetime(args.save_name)
 

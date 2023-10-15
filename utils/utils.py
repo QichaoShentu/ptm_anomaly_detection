@@ -12,7 +12,7 @@ plt.ioff()
 def vis(scores, save_path, save_name, threshold=None):
     x = range(len(scores))
     y = scores
-    linewidth = 200000 / len(x)
+    linewidth = 0.1
     plt.plot(x, y, linewidth=linewidth)
     if threshold is not None:
         plt.axhline(threshold, color='r', linestyle='--', label=f'threshold={threshold:.4f}')

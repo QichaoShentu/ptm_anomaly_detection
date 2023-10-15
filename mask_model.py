@@ -21,6 +21,7 @@ class Model:
         show_every_iters=100,
         after_iter_callback=None,
         after_epoch_callback=None,
+        patience=3,
     ):
         super().__init__()
         self.patch_len = patch_len
@@ -32,6 +33,7 @@ class Model:
         self.lr = lr
         self.show_every_iters = show_every_iters
         self.mask_mode = mask_mode
+        self.patience = patience
         self._net = MaskModel(
             patch_len=patch_len,
             output_dims=output_dims,
@@ -107,7 +109,7 @@ class Model:
 
     def finetune(self, train_loader, val_loader, save_path, finetune, verbose=False):
         # loss = repr_loss + restructed_loss * 2
-        early_stopping = EarlyStopping(verbose=verbose)
+        early_stopping = EarlyStopping(patience=self.patience, verbose=verbose)
         if finetune:
             # freeze encoder
             if verbose: print('freeze encoder')
@@ -251,8 +253,8 @@ class Model:
             restructed_err = restruction_error(batch_x, restructed_x).mean(
                 dim=-1
             )  # b x t
-            # score = restructed_err 
-            score = repr_err+restructed_err*2 #
+            score = restructed_err 
+            # score = repr_err+restructed_err*2 #
             score = score.detach().cpu().numpy()
             scores.append(score)
             labels.append(batch_y)

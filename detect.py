@@ -37,7 +37,8 @@ parser.add_argument(
     default=320,
     help="The representation dimension (defaults to 320)",
 )
-parser.add_argument("--ratio", type=int, default=1, help="")
+parser.add_argument("--ratio", type=float, default=1, help="")
+parser.add_argument("--finetune", type=int, default=1, help="")
 parser.add_argument("--iters", type=int, default=None, help="The number of iterations")
 parser.add_argument("--epochs", type=int, default=None, help="The number of epochs")
 parser.add_argument(
@@ -67,12 +68,12 @@ config = dict(
     after_iter_callback=None,
     after_epoch_callback=None,
 )
-run_dir = "detection/" + name_with_datetime(args.save_name)
+run_dir = "detection/restructed_err-ratio=0.1/" + name_with_datetime(args.save_name)
 
 os.makedirs(run_dir, exist_ok=True)
 
 model = Model(**config)
-train_dataset, train_data_loader = data_provider(args, "train", finetune=True)
+train_dataset, train_data_loader = data_provider(args, "train", finetune=args.finetune)
 test_dataset, test_data_loader = data_provider(args, "test")
 print("trian_data_loader len: ", len(train_data_loader))
 print("test_data_loader len: ", len(test_data_loader))
@@ -81,7 +82,7 @@ t = time.time()
 model.load(args.model_path)
 train_scores, _ = model.cal_scores(train_data_loader)
 test_scores, test_labels = model.cal_scores(test_data_loader)
-threshold = model.get_threshold([train_scores, test_scores], ratio=args.ratio)
+threshold = model.get_threshold([train_scores], ratio=args.ratio)
 pred = model.test(
     test_scores=test_scores,
     test_labels=test_labels,
